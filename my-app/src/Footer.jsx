@@ -37,8 +37,8 @@ export const Footer = ({ scrollToSection }) => {
                         <div className="space-y-3">
                             <div className="flex items-center space-x-3">
                                 <Phone size={16} className="text-blue-400" />
-                                <a href="tel:+923161451031" className="text-gray-400 hover:text-white transition-colors">
-                                    +92 316 1451031
+                                <a href="tel:+923154067544" className="text-gray-400 hover:text-white transition-colors">
+                                    +92 315 4067544
                                 </a>
                             </div>
                             <div className="flex items-center space-x-3">

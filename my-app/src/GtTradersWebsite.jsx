@@ -143,19 +143,112 @@ export default function GTTradersWebsite() {
             </section>
 
             {/* Products Section */}
-            <section id="products" className="py-16 sm:py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+            <section id="products" className="py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-blue-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12 sm:mb-16">
+                    <div className="text-center mb-10 sm:mb-14">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Our Premium Products
                         </h2>
-                        <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-2">
+                        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto px-2">
                             Discover our carefully curated selection of imported premium products designed to elevate your lifestyle.
                         </p>
                     </div>
 
-                    <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-6 sm:gap-8 lg:gap-10">
+                        {products.map((productCategory, categoryIndex) => (
+                            <div key={categoryIndex} className="bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
+                                <div className="p-4 sm:p-6 lg:p-8">
+                                    <div className="text-center mb-6">
+                                        <span className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1.5 rounded-full text-sm font-medium mb-3">
+                                            {productCategory.category}
+                                        </span>
+                                        <h3 className="text-xl sm:text-2xl font-bold text-gray-800">
+                                            {productCategory.title}
+                                        </h3>
+                                    </div>
 
+                                    {/* Carousel Container */}
+                                    <div className="relative">
+                                        <div className="overflow-hidden rounded-lg bg-gradient-to-br from-gray-50 to-blue-50">
+                                            <div
+                                                className="flex transition-transform duration-500 ease-in-out"
+                                                style={{ transform: `translateX(-${(activeCarousels[categoryIndex] || 0) * 100}%)` }}
+                                            >
+                                                {productCategory.items.map((item, itemIndex) => (
+                                                    <div key={itemIndex} className="w-full flex-shrink-0 p-3 sm:p-4">
+                                                        <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
+                                                            <div className="relative group">
+                                                                <div className="aspect-[4/3] w-full bg-gray-100 overflow-hidden">
+                                                                    <img
+                                                                        src={item.image}
+                                                                        alt={item.name}
+                                                                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                                                                        loading="lazy"
+                                                                    />
+                                                                </div>
+                                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                                                <div className="absolute bottom-3 left-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">
+                                                                    {item.price}
+                                                                </div>
+                                                            </div>
+                                                            <div className="p-4 sm:p-5">
+                                                                <h4 className="text-lg font-bold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors">
+                                                                    {item.name}
+                                                                </h4>
+                                                                <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-4">
+                                                                    {item.description}
+                                                                </p>
+                                                                {item.features.length > 0 && (
+                                                                    <div className="space-y-2">
+                                                                        {item.features.map((feature, idx) => (
+                                                                            <div key={idx} className="flex items-start text-sm text-gray-600">
+                                                                                <CheckCircle size={16} className="text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                                                                                <span>{feature}</span>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Navigation Buttons */}
+                                        <button
+                                            onClick={() => prevSlide(categoryIndex)}
+                                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 focus:outline-none"
+                                            aria-label="Previous slide"
+                                        >
+                                            <ChevronLeft size={24} />
+                                        </button>
+                                        <button
+                                            onClick={() => nextSlide(categoryIndex)}
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 focus:outline-none"
+                                            aria-label="Next slide"
+                                        >
+                                            <ChevronRight size={24} />
+                                        </button>
+
+                                        {/* Dots Navigation */}
+                                        <div className="flex justify-center space-x-2 mt-4">
+                                            {productCategory.items.map((_, itemIndex) => (
+                                                <button
+                                                    key={itemIndex}
+                                                    onClick={() => goToSlide(categoryIndex, itemIndex)}
+                                                    className={`w-2 h-2 rounded-full transition-all duration-300 ${(activeCarousels[categoryIndex] || 0) === itemIndex
+                                                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 scale-125'
+                                                        : 'bg-gray-300 hover:bg-gray-400'
+                                                        }`}
+                                                    aria-label={`Go to slide ${itemIndex + 1}`}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -184,8 +277,8 @@ export default function GTTradersWebsite() {
                                             </div>
                                             <div>
                                                 <h4 className="font-semibold text-gray-800 mb-1 text-sm sm:text-base">Phone & WhatsApp</h4>
-                                                <a href="tel:+923161451031" className="text-blue-600 hover:text-blue-700 transition-colors font-medium text-sm sm:text-base">
-                                                    +92 316 1451031
+                                                <a href="tel:+923154067544" className="text-blue-600 hover:text-blue-700 transition-colors font-medium text-sm sm:text-base">
+                                                    +92 315 4067544
                                                 </a>
                                             </div>
                                         </div>
